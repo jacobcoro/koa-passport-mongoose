@@ -4,6 +4,8 @@
 
 ## To run
 
+change the example.env.local to .env.local
+
 ```bash
 npm install
 npm run build
