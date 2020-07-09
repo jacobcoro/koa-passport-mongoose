@@ -1,0 +1,19 @@
+version: '2'
+services:
+  base:
+    image: node:12
+    volumes:
+      - nodemodules:/usr/src/service/node_modules
+      - .:/usr/src/service/
+    working_dir: /usr/src/service/
+  install:
+    extends:
+      service: base
+    command: npm i
+  build:
+    extends:
+      service: base
+    command: npm run build
+volumes:
+  nodemodules:
+    external: true
