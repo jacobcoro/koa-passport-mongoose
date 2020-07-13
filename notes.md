@@ -4,7 +4,7 @@
 2. Add tests with Jest, add edge cases and bad inputs
 3. Add MongoDB
 4. Add nice response messages [response library usage](https://github.com/Army-U/koa-response2), built off [this](https://github.com/jeffijoe/koa-respond)
-5. Add validation [validation library openapi-validator-middleware](https://github.com/PayU/openapi-validator-middleware) Input validation using Swagger (Open API) and ajv
+5. Add validation Input validation using Swagger (Open API) and ajv
 6. Add facebook, github, google
 
 then the dApp stuff:
@@ -104,10 +104,35 @@ mongoose.connection.collections['user'].drop(function (err) {
 });
 ```
 
-typescript does not play nice with the ctx.login() function, had to add this cod to the router to get it to recognize those types:
+typescript does not play nice with the ctx.login() function, had to add this code (pulled from [here](https://github.com/EnetoJara/agenda)) to the router to get it to recognize those types:
 
 ```ts
 import Router from 'koa-router';
 import { DefaultState, Context } from 'koa';
 const router = new Router<DefaultState, Context>();
 ```
+
+## resources
+- [koa typescript getting started videos](https://www.youtube.com/watch?v=bSVfmDbAsQg)
+
+- [vue facebook button](https://github.com/phanan/vue-facebook-signin-button)
+- [vue google signin button](https://github.com/phanan/vue-google-signin-button)
+- [google how to make a button official](https://developers.google.com/identity/sign-in/web/build-button)
+- [google credentials API dashboard](https://console.developers.google.com/apis/credentials)
+- [facebook credentials dashboard](https://developers.facebook.com/apps)
+
+### passport
+- [passport](http://www.passportjs.org/)
+
+### koa
+[koa-csrf](https://github.com/koajs/csrf)
+
+### validation 
+ [validation library openapi-validator-middleware](https://github.com/PayU/openapi-validator-middleware)
+ [ajv syntax](https://ajv.js.org/keywords.html)
+
+ ### examples
+ [example list](https://github.com/rkusa/koa-passport-example)
+ [passport koa](https://slacker.ro/2018/01/02/user-authentication-with-passport-and-koa/)
+ [full example with testing](https://mherman.org/blog/user-authentication-with-passport-and-koa/)
+ [very full example with typescript](https://github.com/EnetoJara/agenda)
