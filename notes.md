@@ -40,6 +40,9 @@ const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 and follow here http://www.passportjs.org/docs/google/
 
 
+### TODO:
+set up a jwt revoked blacklist
+
 ### response reference:
 
 | name                          | code |
@@ -90,8 +93,8 @@ and follow here http://www.passportjs.org/docs/google/
 | networkAuthenticationRequired | 511  |
 | networkConnectTimeoutError    | 599  |
 
-
 remove mongo db or collection with 
+
 ```js
     /* Drop the DB */
 mongoose.connection.db.dropDatabase();
@@ -99,4 +102,12 @@ mongoose.connection.db.dropDatabase();
 mongoose.connection.collections['user'].drop(function (err) {
     console.log('collection dropped');
 });
+```
+
+typescript does not play nice with the ctx.login() function, had to add this cod to the router to get it to recognize those types:
+
+```ts
+import Router from 'koa-router';
+import { DefaultState, Context } from 'koa';
+const router = new Router<DefaultState, Context>();
 ```

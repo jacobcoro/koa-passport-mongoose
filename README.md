@@ -17,3 +17,5 @@ make install
 # Later you can just call this to start:
 make dev
 ```
+
+> server will be available on `localhost:<The port number you used in .env file>` eg. `localhost:3003`

@@ -6,4 +6,6 @@ const PORT = parseInt(process.env.PORT, 10) || 3000; // needs to match ports in 
 
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://mongo:27017'; // for dev, needs to match service name from docker-compose file
 
-export { PORT, MONGO_URI };
+const APP_SECRET = process.env.APP_SECRET || 'secretString!%@#$@%';
+
+export { PORT, MONGO_URI, APP_SECRET };

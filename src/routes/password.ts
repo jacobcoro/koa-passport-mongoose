@@ -1,11 +1,11 @@
 import Router from 'koa-router';
 import * as KoaPassport from 'koa-passport';
 import User, { IUser } from '../models/user';
-import mongoose from 'mongoose';
 import * as bCrypt from 'bcrypt-nodejs';
-import { Passport } from 'koa-passport';
+import { DefaultState, Context } from 'koa';
 
-const password = function (router: Router, passport: typeof KoaPassport, db: mongoose.Connection) {
+import { PasswordRes } from '../types';
+const password = function (router: Router<DefaultState, Context>, passport: typeof KoaPassport) {
     router.post('/password/signup', async (ctx) => {
         try {
             console.log('ctx.request.body', ctx.request.body);
@@ -20,7 +20,11 @@ const password = function (router: Router, passport: typeof KoaPassport, db: mon
             await User.create({ username: username, password: hashedPw });
             const newUser = await User.findOne({ username: username });
             console.log('newUser', newUser);
-            ctx.oK(newUser, 'New user created');
+            ctx.oK(
+                { username: newUser.username, _id: newUser.id } as PasswordRes,
+                'New user created',
+            );
+            ctx.logIn(newUser);
         } catch (err) {
             console.log(err);
             ctx.internalServerError(err, err.toString());
@@ -33,8 +37,10 @@ const password = function (router: Router, passport: typeof KoaPassport, db: mon
                 ctx.unauthorized(err, err);
             } else {
                 console.log('User', user);
-
-                ctx.oK(null, 'Login successful');
+                ctx.oK(
+                    { username: user.username, _id: user.id } as PasswordRes,
+                    'Login successful',
+                );
             }
         })(ctx, next);
     });
