@@ -13,12 +13,11 @@ const routeExport = (app: Koa, passport: typeof KoaPassport) => {
             ctx.internalServerError(null, error);
         }
     });
-    router.get('/verify-jwt', async (ctx) => {
-        await (passport.authenticate('jwt', { session: false }),
-        async (response: any) => {
-            ctx.oK(null, 'token verified');
-        })(ctx);
+    router.get('/verify-jwt', passport.authenticate('jwt', { session: false }), (ctx) => {
+        // console.log('ctx', ctx);
+        ctx.oK(null, 'token verified');
     });
+
     password(router, passport);
 
     app.use(router.routes()).use(router.allowedMethods());

@@ -4,6 +4,7 @@ import passport from 'koa-passport';
 import password from './strategies/password';
 import Koa from 'koa';
 import { APP_SECRET } from '../utils/envsLoader';
+import jwtStrat from './strategies/jwt';
 
 export default (app: Koa) => {
     app.keys = [APP_SECRET];
@@ -20,7 +21,7 @@ export default (app: Koa) => {
 
     // Our strategies here
     passport.use(password);
-
+    passport.use(jwtStrat);
     // Boiler
     app.use(passport.initialize());
     app.use(passport.session());
