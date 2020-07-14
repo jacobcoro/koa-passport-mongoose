@@ -39,7 +39,7 @@ app.use(
 const passport = passportInit(app);
 
 /** Routes */
-router(app, passport, db);
+router(app, passport);
 
 /** Start the server! */
 app.listen(PORT, () => console.log(`Koa server listening on PORT ${PORT}`));

@@ -3,6 +3,8 @@ import * as KoaPassport from 'koa-passport';
 import User, { IUser } from '../models/user';
 import * as bCrypt from 'bcrypt-nodejs';
 import { DefaultState, Context } from 'koa';
+import jwt from 'jsonwebtoken';
+import { APP_SECRET } from '../utils/envsLoader';
 
 import { PasswordRes } from '../types';
 const password = function (router: Router<DefaultState, Context>, passport: typeof KoaPassport) {
@@ -13,18 +15,24 @@ const password = function (router: Router<DefaultState, Context>, passport: type
             const password = ctx.request.body.password;
             const previousUser = await User.findOne({ username: username });
             if (previousUser) {
-                ctx.notAcceptable(null, 'user already exists');
+                ctx.send(406, { error: 'user already exists' }, 'user already exists');
                 return;
             }
             const hashedPw = bCrypt.hashSync(password, bCrypt.genSaltSync(10));
             await User.create({ username: username, password: hashedPw });
             const newUser = await User.findOne({ username: username });
             console.log('newUser', newUser);
+            const token = jwt.sign(
+                {
+                    data: { username: newUser.username, _id: newUser.id },
+                },
+                APP_SECRET,
+                { expiresIn: '1h' },
+            );
             ctx.oK(
-                { username: newUser.username, _id: newUser.id } as PasswordRes,
+                { token: token, username: newUser.username, _id: newUser.id } as PasswordRes,
                 'New user created',
             );
-            ctx.logIn(newUser);
         } catch (err) {
             console.log(err);
             ctx.internalServerError(err, err.toString());
@@ -37,8 +45,15 @@ const password = function (router: Router<DefaultState, Context>, passport: type
                 ctx.unauthorized(err, err);
             } else {
                 console.log('User', user);
+                const token = jwt.sign(
+                    {
+                        data: { username: user.username, _id: user.id },
+                    },
+                    APP_SECRET,
+                    { expiresIn: '1h' },
+                );
                 ctx.oK(
-                    { username: user.username, _id: user.id } as PasswordRes,
+                    { token: token, username: user.username, _id: user.id } as PasswordRes,
                     'Login successful',
                 );
             }
