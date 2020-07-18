@@ -4,7 +4,7 @@ import * as bCrypt from 'bcrypt-nodejs';
 
 const LocalStrategy = passportLocal.Strategy;
 
-const passwordStrat = new LocalStrategy(
+const localStrat = new LocalStrategy(
     async (username: IUser['username'], password: IUser['password'], done) => {
         const user = await User.findOne({ username: username });
         if (!user) {
@@ -22,4 +22,4 @@ const passwordStrat = new LocalStrategy(
         }
     },
 );
-export default passwordStrat;
+export default localStrat;

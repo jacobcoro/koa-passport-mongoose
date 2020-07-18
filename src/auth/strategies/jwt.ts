@@ -1,19 +1,18 @@
 import passportJwt from 'passport-jwt';
 const JwtStrategy = passportJwt.Strategy;
-const ExtractJwt = passportJwt.ExtractJwt;
-import User from '../../models/user';
-import { APP_SECRET } from '../../utils/envsLoader';
+import User, { IUser } from '../../models/user';
+import { APP_SECRET, JWT_EXPIRY, JWT_OPTIONS } from '../../utils/config';
+import jwt from 'jsonwebtoken';
 
-var opts = {
-    secretOrKey: APP_SECRET,
-    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-};
-const jwtStrat = new JwtStrategy(opts, async (jwt_payload, done) => {
+export const createJwt = (username: IUser['username']) =>
+    jwt.sign({ data: { username: username } }, APP_SECRET, { expiresIn: JWT_EXPIRY });
+
+const jwtStrat = new JwtStrategy(JWT_OPTIONS, async (jwt_payload, done) => {
     try {
         const exp = new Date(jwt_payload.exp * 1000);
         const now = new Date();
         const valid = now < exp;
-        const user = await User.findOne({ _id: jwt_payload.data._id });
+        const user = await User.findOne({ username: jwt_payload.data.username });
         if (user && valid) {
             return done(null, user);
         } else {

@@ -1,24 +1,25 @@
 import Router from 'koa-router';
 import Koa from 'koa';
 import * as KoaPassport from 'koa-passport';
-import password from './password';
+import local from './local';
+import facebook from './facebook';
+import google from './google';
 import { DefaultState, Context } from 'koa';
+import { ROUTES } from '../utils/config';
 
 const routeExport = (app: Koa, passport: typeof KoaPassport) => {
     const router = new Router<DefaultState, Context>();
+
     router.get('/ping', async (ctx) => {
-        try {
-            ctx.oK(null, 'pong!');
-        } catch (error) {
-            ctx.internalServerError(null, error);
-        }
+        ctx.oK(null, 'pong!');
     });
-    router.get('/verify-jwt', passport.authenticate('jwt', { session: false }), (ctx) => {
-        // console.log('ctx', ctx);
+    router.get(ROUTES.VERIFY_JWT, passport.authenticate('jwt'), (ctx) => {
         ctx.oK(null, 'token verified');
     });
 
-    password(router, passport);
+    local(router, passport);
+    facebook(router, passport);
+    google(router, passport);
 
     app.use(router.routes()).use(router.allowedMethods());
 };

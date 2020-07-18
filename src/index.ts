@@ -11,7 +11,7 @@ import passportInit from './auth/passportInit';
 
 import router from './routes';
 
-import { PORT } from './utils/envsLoader';
+import { PORT } from './utils/config';
 
 const app = new koa();
 
