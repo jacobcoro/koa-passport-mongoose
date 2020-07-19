@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@koa/cors": "^3.1.0",
+    "@types/koa-sslify": "^4.0.1",
     "bcrypt-nodejs": "0.0.3",
     "dotenv": "^8.2.0",
     "jsonwebtoken": "^8.5.1",
@@ -38,6 +39,7 @@
     "koa-response2": "^1.0.4",
     "koa-router": "^8.0.8",
     "koa-session": "^6.0.0",
+    "koa-sslify": "^4.0.3",
     "koa-validate": "^1.0.7",
     "lodash": "^4.17.15",
     "mongoose": "^5.9.21",

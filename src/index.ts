@@ -12,6 +12,8 @@ import passportInit from './auth/passportInit';
 import router from './routes';
 
 import { PORT } from './utils/config';
+import sslify from 'koa-sslify';
+const ssl = sslify;
 
 const app = new koa();
 
@@ -20,6 +22,7 @@ const db = connectDb();
 
 /** Middlewares */
 app.use(cors());
+app.use(ssl());
 app.use(logger());
 app.use(bodyParser());
 app.use(helmet());
