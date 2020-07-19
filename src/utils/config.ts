@@ -19,7 +19,10 @@ const JWT_OPTIONS = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
 };
 /** Sometimes the callback cannot find the referer, In a real setup, we might need apps that use this backend to register a callback */
-const CLIENT_CALLBACK = 'http://localhost:8080/login/';
+const CLIENT_CALLBACK =
+    process.env.NODE_ENV === 'production'
+        ? 'https://optimistic-torvalds-74fc0d.netlify.app'
+        : 'http://localhost:8080/login/';
 
 const ROUTES = {
     FACEBOOK_AUTH: '/auth/facebook',
