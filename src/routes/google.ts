@@ -15,8 +15,8 @@ const google = function (router: Router<DefaultState, Context>, passport: typeof
 
     router.get(ROUTES.GOOGLE_AUTH_CALLBACK, async (ctx, next) => {
         return passport.authenticate('google', (err: string, user: IUser) => {
-            console.log('ctx.request', ctx.request);
-            console.log('user', user);
+            // console.log('ctx.request', ctx.request);
+            // console.log('user', user);
             if (err) {
                 ctx.unauthorized(err, err);
             } else {

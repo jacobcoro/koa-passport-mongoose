@@ -5,8 +5,8 @@ import { FACEBOOK_CONFIG } from '../../utils/config';
 const facebookStrat = new FacebookStrategy(
     FACEBOOK_CONFIG,
     async (ctx, token, refreshToken, profile, done) => {
-        console.log('===========ctx===========\n', ctx);
-        console.log('===========profile===========\n', profile);
+        // console.log('===========ctx===========\n', ctx);
+        // console.log('===========profile===========\n', profile);
         const email = profile.emails ? profile.emails[0].value.toLowerCase() || null : null;
         const user = await User.findOne({
             username: email || profile.id,
