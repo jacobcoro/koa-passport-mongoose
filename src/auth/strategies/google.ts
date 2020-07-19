@@ -10,7 +10,7 @@ const googleStrat = new GoogleStrategy(
         const user = await User.findOne({
             username: email || profile.id,
         });
-        console.log('user', user);
+        // console.log('user', user);
         if (user) {
             return done(null, user);
         } else {
