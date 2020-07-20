@@ -20,7 +20,7 @@ const db = connectDb();
 
 /** Middlewares */
 app.use(cors());
-app.use(sslify({ resolver: xForwardedProtoResolver }));
+if (process.env.NODE_ENV === 'production') app.use(sslify({ resolver: xForwardedProtoResolver }));
 app.use(logger());
 app.use(bodyParser());
 app.use(helmet());
