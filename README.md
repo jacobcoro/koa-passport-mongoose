@@ -3,7 +3,8 @@
  A simple Node.js Koa server with password and oAuth login using passport and persisted to MongoDB
  This is probably better for serving native apps, because it uses JWT. For browser apps, storage of JWT is tricky and not safe, so a more complex solution is needed. 
 
- Can be hosted on Heroku with ease
+ Can be hosted on Heroku with ease.
+ > Facebook and Google auth will not work on Heroku unless you upgrade to hobby tier or above and enable SSL.
 
 ## To run
 
