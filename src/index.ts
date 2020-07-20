@@ -12,10 +12,7 @@ import passportInit from './auth/passportInit';
 import router from './routes';
 
 import { PORT } from './utils/config';
-import {
-    default as sslify, // middleware factory
-    xForwardedProtoResolver as resolver, // resolver needed
-} from 'koa-sslify';
+import sslify, { xForwardedProtoResolver } from 'koa-sslify';
 const app = new koa();
 
 /** Database */
@@ -23,7 +20,7 @@ const db = connectDb();
 
 /** Middlewares */
 app.use(cors());
-app.use(sslify({ resolver }));
+app.use(sslify({ resolver: xForwardedProtoResolver }));
 app.use(logger());
 app.use(bodyParser());
 app.use(helmet());
